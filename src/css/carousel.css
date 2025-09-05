@@ -1,0 +1,136 @@
+/* Full viewport height carousel for scientific articles */
+.carousel {
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+.carousel-inner {
+  height: 100vh !important;
+}
+
+.carousel-item {
+  height: 100vh !important;
+}
+
+.carousel-item img {
+  height: 100vh !important;
+  width: 100vw !important;
+  object-fit: cover !important;
+}
+
+/* Large caption area for scientific articles */
+.carousel-caption {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  color: white !important;
+  padding: 40px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: left !important;
+  overflow: auto !important;
+  transform: none !important;
+}
+
+/* Article content container */
+.article-content {
+  max-width: 800px;
+  width: 100%;
+  line-height: 1.6;
+  font-size: 18px;
+}
+
+/* Article title styling */
+.article-title {
+  font-size: 2.5rem !important;
+  margin-bottom: 30px !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  color: #ffffff !important;
+}
+
+/* Article text styling */
+.article-text {
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+  margin-bottom: 20px !important;
+  text-align: justify !important;
+}
+
+/* Article subtitle styling */
+.article-subtitle {
+  font-size: 1.5rem !important;
+  margin-top: 30px !important;
+  margin-bottom: 15px !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+/* Inserted images in articles */
+.inserted-image {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Image caption styling */
+.image-caption {
+  font-size: 14px;
+  font-style: italic;
+  margin-top: 10px;
+  color: #cccccc;
+}
+
+/* Image container */
+.image-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+/* Remove default Bootstrap margins/padding */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Carousel container */
+.carousel-container {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel-caption {
+    padding: 20px !important;
+  }
+
+  .article-content {
+    font-size: 16px;
+  }
+
+  .article-title {
+    font-size: 2rem !important;
+    margin-bottom: 20px !important;
+  }
+
+  .article-text {
+    font-size: 16px !important;
+  }
+
+  .article-subtitle {
+    font-size: 1.3rem !important;
+  }
+}

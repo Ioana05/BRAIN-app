@@ -1,5 +1,5 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Arial", "Times New Roman", Times, Georgia, serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -26,6 +26,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  font-size: 22px;
   min-width: 320px;
   min-height: 100vh;
 }
