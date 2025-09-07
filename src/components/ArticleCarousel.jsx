@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/carousel.css";
 
-const EmblaCarousel = (props) => {
+const ArticleCarousel = () => {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -84,4 +84,4 @@ const EmblaCarousel = (props) => {
   );
 };
 
-export default EmblaCarousel;
+export default ArticleCarousel;

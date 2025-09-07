@@ -1,18 +1,18 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Article from "./components/Article";
-import EmblaCarousel from "./components/EmblaCarousel";
+import ArticleCarousel from "./components/ArticleCarousel";
+import Navbar from "./components/Navbar/Navbar";
+import Notifications from "./components/Notifications/Notifications";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <EmblaCarousel></EmblaCarousel>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navbar />}>
+        <Route index element={<ArticleCarousel />} />
+        <Route path="/notifications" element={Notifications} />
+      </Route>
+    </Routes>
   );
 }
 
