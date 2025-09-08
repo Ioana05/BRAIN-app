@@ -11,6 +11,7 @@ export default defineConfig({
     svgr(),
     VitePWA({
       registerType: "autoUpdate",
+      injectRegister: "auto",
       manifest: {
         name: "My Articles App",
         short_name: "Articles",

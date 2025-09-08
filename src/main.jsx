@@ -4,12 +4,15 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { registerSW } from "virtual:pwa-register";
+import NotificationGate from "./components/NotificationGate.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <NotificationGate>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </NotificationGate>
   </StrictMode>
 );
 
