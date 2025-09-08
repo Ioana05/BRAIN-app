@@ -21,6 +21,6 @@ for article in range(len(articles)):
 
 
 json_str = json.dumps(page, indent = 4)
-with open("articles.json", "w") as f:
+with open("../public/articles.json", "w") as f:
     f.write(json_str)
 

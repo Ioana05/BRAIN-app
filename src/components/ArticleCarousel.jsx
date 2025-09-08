@@ -9,7 +9,7 @@ const ArticleCarousel = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await fetch("/js/articles.json");
+        const res = await fetch("/public/articles.json");
         const data = await res.json();
         setArticles(data);
       } catch (e) {
