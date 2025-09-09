@@ -18,11 +18,47 @@ const app = initializeApp(firebaseConfig);
 
 const messaging = getMessaging(app);
 
+// onBackgroundMessage(messaging, (payload) => {
+//   const title = payload.notification?.title || "Notification";
+//   const options = {
+//     body: payload.notification?.body || "",
+//     icon: "/favicon.ico",
+//   };
+//   self.registration.showNotification(title, options);
+// });
+
+// Handle background messages
 onBackgroundMessage(messaging, (payload) => {
-  const title = payload.notification?.title || "Notification";
-  const options = {
-    body: payload.notification?.body || "",
-    icon: "/favicon.ico",
+  console.log("[sw.js] Received background message:", payload);
+
+  const notificationTitle =
+    payload.notification?.title || payload.data?.title || "New Notification";
+  const notificationOptions = {
+    body:
+      payload.notification?.body ||
+      payload.data?.body ||
+      "You have a new message",
+    icon: "/icon-192x192.png",
+    badge: "/badge-72x72.png",
+    tag: "notification-tag",
+    requireInteraction: true,
+    actions: [
+      {
+        action: "open",
+        title: "Open App",
+        icon: "/icon-192x192.png",
+      },
+      {
+        action: "close",
+        title: "Close",
+        icon: "/close-icon.png",
+      },
+    ],
+    data: {
+      url: "/", // URL to open when notification is clicked
+      ...payload.data,
+    },
   };
-  self.registration.showNotification(title, options);
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });

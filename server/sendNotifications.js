@@ -12,17 +12,32 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// --- 2. Funcție pentru a prelua toate token-urile ---
+// --- 2. Function to get all tokens ---
 async function getAllTokens() {
-  const snapshot = await db.collection("deviceTokens").get();
-  if (snapshot.empty) {
-    console.log("No tokens found in database.");
+  try {
+    const snapshot = await db.collection("deviceTokens").get();
+    if (snapshot.empty) {
+      console.log("No tokens found in database.");
+      return [];
+    }
+
+    const tokens = [];
+    snapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      if (data.token) {
+        tokens.push(data.token);
+      }
+    });
+
+    console.log(`Found ${tokens.length} tokens in database`);
+    return tokens;
+  } catch (error) {
+    console.error("Error getting tokens:", error);
     return [];
   }
-  return snapshot.docs.map((doc) => doc.data().token);
 }
 
-// --- 3. Funcție pentru a trimite notificări ---
+// --- 3. Function to send notifications ---
 async function sendNotification(title, body) {
   const tokens = await getAllTokens();
 
@@ -31,11 +46,34 @@ async function sendNotification(title, body) {
     return;
   }
 
-  // Trimite notificări către toate token-urile
+  console.log(`Attempting to send notifications to ${tokens.length} devices`);
+
+  // FIXED: Use both 'notification' and 'data' for better compatibility
   const message = {
     notification: {
-      title: "Hello!",
-      body: "This is a test notification",
+      title: title,
+      body: body,
+    },
+    data: {
+      title: title,
+      body: body,
+      timestamp: Date.now().toString(),
+    },
+    // Add web push config for PWAs
+    webpush: {
+      notification: {
+        title: title,
+        body: body,
+        icon: "/icon-192x192.png", // Make sure you have this icon
+        badge: "/badge-72x72.png", // Optional badge icon
+        requireInteraction: true,
+        actions: [
+          {
+            action: "open",
+            title: "Open App",
+          },
+        ],
+      },
     },
     tokens: tokens,
   };
@@ -46,21 +84,113 @@ async function sendNotification(title, body) {
       `Notifications sent. Success: ${response.successCount}, Failures: ${response.failureCount}`
     );
 
-    // Șterge token-urile invalide
+    // Log detailed responses for debugging
     response.responses.forEach((res, idx) => {
       if (!res.success) {
-        const invalidToken = tokens[idx];
-        db.collection("tokens").doc(invalidToken).delete().catch(console.error);
-        console.log(`Deleted invalid token: ${invalidToken}`);
+        console.error(`Failed to send to token ${idx}:`, res.error);
+      } else {
+        console.log(`Successfully sent to token ${idx}`);
       }
     });
+
+    // FIXED: Clean up invalid tokens (correct collection name)
+    const invalidTokens = [];
+    response.responses.forEach((res, idx) => {
+      if (!res.success) {
+        const error = res.error;
+        // Check for specific error codes that indicate invalid tokens
+        if (
+          error.code === "messaging/invalid-registration-token" ||
+          error.code === "messaging/registration-token-not-registered"
+        ) {
+          invalidTokens.push(tokens[idx]);
+        }
+      }
+    });
+
+    // Delete invalid tokens from the correct collection
+    if (invalidTokens.length > 0) {
+      console.log(`Deleting ${invalidTokens.length} invalid tokens`);
+      const deletePromises = invalidTokens.map(async (token) => {
+        try {
+          // Query to find documents with this token
+          const querySnapshot = await db
+            .collection("deviceTokens")
+            .where("token", "==", token)
+            .get();
+
+          const deletePromises = querySnapshot.docs.map((doc) =>
+            doc.ref.delete()
+          );
+          await Promise.all(deletePromises);
+          console.log(`Deleted invalid token: ${token}`);
+        } catch (error) {
+          console.error(`Error deleting token ${token}:`, error);
+        }
+      });
+
+      await Promise.all(deletePromises);
+    }
+
+    return {
+      success: response.successCount,
+      failures: response.failureCount,
+      invalidTokens: invalidTokens.length,
+    };
   } catch (err) {
     console.error("Error sending notifications:", err);
+    throw err;
   }
 }
 
-// --- 4. Exemplu de apel ---
-(async () => {
-  await sendNotification("Hello!", "This is a test notification");
-  console.log("Done sending notifications.");
-})();
+// --- 4. Enhanced test function ---
+async function testNotification() {
+  try {
+    console.log("Starting notification test...");
+    const result = await sendNotification(
+      "Test Notification",
+      "This is a test notification from your PWA!"
+    );
+    console.log("Notification test completed:", result);
+  } catch (error) {
+    console.error("Test failed:", error);
+  }
+}
+
+// --- 5. Periodic notification scheduler ---
+function startPeriodicNotifications(intervalMinutes = 60) {
+  console.log(
+    `Starting periodic notifications every ${intervalMinutes} minutes`
+  );
+
+  const interval = intervalMinutes * 60 * 1000; // Convert to milliseconds
+
+  // Send initial notification
+  testNotification();
+
+  // Set up periodic notifications
+  setInterval(async () => {
+    try {
+      const now = new Date();
+      await sendNotification(
+        "Periodic Update",
+        `Notification sent at ${now.toLocaleTimeString()}`
+      );
+    } catch (error) {
+      console.error("Periodic notification failed:", error);
+    }
+  }, interval);
+}
+
+// --- 6. Export functions for use in other modules ---
+export {
+  sendNotification,
+  getAllTokens,
+  testNotification,
+  startPeriodicNotifications,
+};
+
+// --- 7. Run test if this file is executed directly ---
+if (import.meta.url === `file://${process.argv[1]}`) {
+  testNotification();
+}

@@ -52,13 +52,13 @@ export default function NotificationGate({ children }) {
     }
   }, []);
 
-  if (!isPwa) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen text-center">
-        <p>Please install the app on your device to enable notifications.</p>
-      </div>
-    );
-  }
+  // if (!isPwa) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center h-screen text-center">
+  //       <p>Please install the app on your device to enable notifications.</p>
+  //     </div>
+  //   );
+  // }
 
   if (!allowed) {
     return (
