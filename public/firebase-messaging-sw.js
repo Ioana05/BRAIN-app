@@ -1,8 +1,9 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getMessaging,
-  onBackgroundMessage,
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-sw.js";
+importScripts(
+  "https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"
+);
 
 const firebaseConfig = {
   apiKey: "AIzaSyBV-a2Gz4jdFq5zBHLRYCn_duY1ccw3JnA",
@@ -15,49 +16,21 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
+// Init messaging
 const messaging = getMessaging(app);
-
-// onBackgroundMessage(messaging, (payload) => {
-//   const title = payload.notification?.title || "Notification";
-//   const options = {
-//     body: payload.notification?.body || "",
-//     icon: "/favicon.ico",
-//   };
-//   self.registration.showNotification(title, options);
-// });
-
-// Handle background messages
-onBackgroundMessage(messaging, (payload) => {
-  console.log("[sw.js] Received background message:", payload);
+console.log(messaging);
+// Handle background messages (data-only payloads)
+messaging.onBackgroundMessage((payload) => {
+  console.log("[firebase-messaging-sw.js] Background message:", payload);
 
   const notificationTitle =
     payload.notification?.title || payload.data?.title || "New Notification";
+
   const notificationOptions = {
     body:
       payload.notification?.body ||
       payload.data?.body ||
       "You have a new message",
-    icon: "/icon-192x192.png",
-    badge: "/badge-72x72.png",
-    tag: "notification-tag",
-    requireInteraction: true,
-    actions: [
-      {
-        action: "open",
-        title: "Open App",
-        icon: "/icon-192x192.png",
-      },
-      {
-        action: "close",
-        title: "Close",
-        icon: "/close-icon.png",
-      },
-    ],
-    data: {
-      url: "/", // URL to open when notification is clicked
-      ...payload.data,
-    },
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

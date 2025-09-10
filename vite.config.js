@@ -13,8 +13,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       injectRegister: "auto",
       manifest: {
-        name: "My Articles App",
-        short_name: "Articles",
+        name: "BRAIN",
+        short_name: "BRAIN",
         start_url: "/",
         display: "standalone",
         background_color: "#ffffff",
