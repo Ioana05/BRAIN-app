@@ -190,7 +190,4 @@ export {
   startPeriodicNotifications,
 };
 
-// --- 7. Run test if this file is executed directly ---
-if (import.meta.url === `file://${process.argv[1]}`) {
-  testNotification();
-}
+testNotification();
