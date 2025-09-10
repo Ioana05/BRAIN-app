@@ -50,32 +50,14 @@ async function sendNotification(title, body) {
 
   // FIXED: Use both 'notification' and 'data' for better compatibility
   const message = {
-    notification: {
-      title: title,
-      body: body,
-    },
     data: {
-      title: title,
-      body: body,
-      timestamp: Date.now().toString(),
+      title: "Titlul dorit",
+      body: "Body-ul dorit " + Date.now(), // pentru unicitate
     },
-    // Add web push config for PWAs
+    tokens: [...tokens],
     webpush: {
-      notification: {
-        title: title,
-        body: body,
-        icon: "/icon-192x192.png", // Make sure you have this icon
-        badge: "/badge-72x72.png", // Optional badge icon
-        requireInteraction: true,
-        actions: [
-          {
-            action: "open",
-            title: "Open App",
-          },
-        ],
-      },
+      headers: { Urgency: "high" },
     },
-    tokens: tokens,
   };
 
   try {
@@ -190,7 +172,4 @@ export {
   startPeriodicNotifications,
 };
 
-// --- 7. Run test if this file is executed directly ---
-if (import.meta.url === `file://${process.argv[1]}`) {
-  testNotification();
-}
+testNotification();
