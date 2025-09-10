@@ -60,7 +60,7 @@ export async function getAndStoreFcmToken() {
       serviceWorkerRegistration: registration,
     });
     if (currentToken) {
-      // console.log(currentToken);
+      console.log(currentToken);
       const deviceId = await getOrCreateDeviceId();
       await saveTokenToFirestore(deviceId, currentToken);
       localStorage.setItem("fcmToken", currentToken);

@@ -14,22 +14,25 @@ const firebaseConfig = {
   appId: "1:1079952596923:web:4237227ea0e49325f1ee9e",
   measurementId: "G-LL164WYB03",
 };
+// Initialize Firebase app
+firebase.initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
-// Init messaging
-const messaging = getMessaging(app);
-console.log(messaging);
-// Handle background messages (data-only payloads)
-messaging.onBackgroundMessage((payload) => {
+// Retrieve an instance of Firebase Messaging
+const messaging = firebase.messaging();
+
+// Handle background messages
+messaging.onBackgroundMessage(function (payload) {
   console.log("[firebase-messaging-sw.js] Background message:", payload);
 
   const notificationTitle =
-    payload.notification?.title || payload.data?.title || "New Notification";
+    (payload.notification && payload.notification.title) ||
+    (payload.data && payload.data.title) ||
+    "New Notification";
 
   const notificationOptions = {
     body:
-      payload.notification?.body ||
-      payload.data?.body ||
+      (payload.notification && payload.notification.body) ||
+      (payload.data && payload.data.body) ||
       "You have a new message",
   };
 
