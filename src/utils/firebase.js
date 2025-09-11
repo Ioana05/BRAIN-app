@@ -49,9 +49,7 @@ export async function saveTokenToFirestore(deviceId, token) {
 
 export async function getAndStoreFcmToken() {
   try {
-    const registration = await navigator.serviceWorker.register(
-      "/firebase-messaging-sw.js"
-    );
+    const registration = await navigator.serviceWorker.ready;
     const currentToken = await getToken(messaging, {
       vapidKey: VAPIDKEY,
       serviceWorkerRegistration: registration,

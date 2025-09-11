@@ -1,10 +1,20 @@
+console.log("[SW] Starting");
+
+importScripts(
+  "https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-sw.js"
+);
+
+if (workbox) {
+  console.log("[SW] Workbox loaded");
+  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+}
+
 importScripts(
   "https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"
 );
 importScripts(
   "https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"
 );
-
 const firebaseConfig = {
   apiKey: "AIzaSyBV-a2Gz4jdFq5zBHLRYCn_duY1ccw3JnA",
   authDomain: "brain-pwa.firebaseapp.com",
@@ -22,7 +32,7 @@ const messaging = firebase.messaging();
 
 // Handle background messages
 messaging.onBackgroundMessage(function (payload) {
-  console.log("[firebase-messaging-sw.js] Background message:", payload);
+  console.log("[FCM] Background message:", payload);
 
   const notificationTitle =
     (payload.notification && payload.notification.title) ||
@@ -38,3 +48,5 @@ messaging.onBackgroundMessage(function (payload) {
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
+self.addEventListener("install", () => console.log("[SW] Installed"));
+self.addEventListener("activate", () => console.log("[SW] Activated"));

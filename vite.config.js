@@ -12,6 +12,12 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       injectRegister: "auto",
+      devOptions: {
+        enabled: true, // so SW works in dev with vite preview
+      },
+      srcDir: "src",
+      filename: "firebase-messaging-sw.js",
+      strategies: "injectManifest",
       manifest: {
         name: "BRAIN",
         short_name: "BRAIN",
