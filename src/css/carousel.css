@@ -373,19 +373,16 @@ html {
   .custom-card {
     max-width: 95%;
     max-height: 70vh;
-    display: flex;
   }
 
   .card-image {
     height: 50px !important;
     /* min-height: 120px !important; */
     max-height: 120px !important;
-    flex: 1;
   }
 
   .card-content {
     padding: 24px;
-    flex: 1;
   }
 
   .card-title {
