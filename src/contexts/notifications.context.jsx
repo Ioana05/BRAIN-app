@@ -29,7 +29,7 @@ export const NotificationsProvider = ({ children }) => {
       time: new Date().toLocaleString(),
     },
   ]);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(2);
 
   // Listen to SW messages
   useEffect(() => {

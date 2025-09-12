@@ -3,10 +3,14 @@ import {
   StyledNavContainer,
   StyledNotificationsLogo,
   StyledBrainLogoImg,
+  UnreadBadge,
+  NotificationIconContainer,
 } from "./Navbar.styles";
 import BrainLogo from "../../assets/BrainLogo.jpg";
-
+import { useNotifications } from "../../contexts/notifications.context";
 const Navbar = () => {
+  const { unreadCount } = useNotifications();
+
   return (
     <>
       <StyledNavContainer>
@@ -15,7 +19,10 @@ const Navbar = () => {
         </Link>
 
         <Link to="/notifications">
-          <StyledNotificationsLogo />
+          <NotificationIconContainer>
+            {unreadCount > 0 && <UnreadBadge>{unreadCount}</UnreadBadge>}
+            <StyledNotificationsLogo />
+          </NotificationIconContainer>
         </Link>
       </StyledNavContainer>
       <Outlet />
