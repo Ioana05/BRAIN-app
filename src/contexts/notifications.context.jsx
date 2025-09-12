@@ -4,32 +4,43 @@ const NotificationsContext = createContext();
 
 export const useNotifications = () => useContext(NotificationsContext);
 
+const defaultNotifications = [
+  {
+    id: 1,
+    title: "Update",
+    message: "New features have been added.",
+    isRead: false,
+    time: new Date().toLocaleString(),
+  },
+  {
+    id: 2,
+    title: "Reminder",
+    message: "Don't forget to check out our latest articles.",
+    isRead: false,
+    time: new Date().toLocaleString(),
+  },
+  {
+    id: 3,
+    title: "Welcome",
+    message: "Thanks for enabling notifications!",
+    isRead: true,
+    time: new Date().toLocaleString(),
+  },
+];
 export const NotificationsProvider = ({ children }) => {
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      title: "Update",
-      message: "New features have been added.",
-      isread: false,
-      time: new Date().toLocaleString(),
-    },
-    {
-      id: 2,
-      title: "Reminder",
-      message: "Don't forget to check out our latest articles.",
-      isRead: false,
-      time: new Date().toLocaleString(),
-    },
-    {
-      id: 3,
-      title: "Welcome",
-      message: "Thanks for enabling notifications!",
+  const [notifications, setNotifications] = useState(() => {
+    const stored = localStorage.getItem("notifications");
+    if (stored) return [...JSON.parse(stored)];
+    else {
+      return defaultNotifications;
+    }
+  });
 
-      isRead: true,
-      time: new Date().toLocaleString(),
-    },
-  ]);
-  const [unreadCount, setUnreadCount] = useState(2);
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  // Keep localStorage updated as well
+  useEffect(() => {
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+  }, [notifications]);
 
   // Listen to SW messages
   useEffect(() => {
@@ -37,9 +48,7 @@ export const NotificationsProvider = ({ children }) => {
     console.log("Setting up SW message listener");
     const handler = (event) => {
       if (event.data?.type === "NEW_NOTIFICATION") {
-        console.log("Received notification from SW:", event);
-        console.log("Payload:", event.data.payload);
-        console.log("Data:", event.data.payload.data);
+        console.log("Received NEW_NOTIFICATION from SW", event.data);
         const newNotif = {
           id: Date.now(),
           title: event.data.payload.data.title,
@@ -48,7 +57,6 @@ export const NotificationsProvider = ({ children }) => {
           isRead: false,
         };
         setNotifications((prev) => [newNotif, ...prev]);
-        setUnreadCount((prev) => prev + 1);
       }
     };
 
@@ -61,7 +69,6 @@ export const NotificationsProvider = ({ children }) => {
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
     );
-    setUnreadCount((prev) => prev - 1);
   };
 
   // Clean notifications older than a month
