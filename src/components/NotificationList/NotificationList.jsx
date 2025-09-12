@@ -24,7 +24,7 @@ const notifications = [
     time: "1 day ago",
   },
 ];
-const Notifications = () => {
+const NotificationList = () => {
   const [notificationList, setNotificationList] = useState(notifications);
   const markAsRead = (id) => {
     const updatedNotifications = notificationList.map((n) =>
@@ -44,4 +44,4 @@ const Notifications = () => {
     </div>
   );
 };
-export default Notifications;
+export default NotificationList;

@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import ArticleCarousel from "./components/ArticleCarousel";
+import HomePage from "./routes/HomePage";
 import Navbar from "./components/Navbar/Navbar";
-import Notifications from "./components/Notifications/Notifications";
+import Notifications from "./routes/Notifications";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navbar />}>
-        <Route index element={<ArticleCarousel />} />
+        <Route index element={<HomePage />} />
         <Route path="/notifications" element={<Notifications />} />
       </Route>
     </Routes>
