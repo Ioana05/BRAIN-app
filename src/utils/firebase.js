@@ -24,14 +24,8 @@ signInAnonymously(auth)
   .then(() => console.log("Signed in anonymously"))
   .catch((err) => console.error("Anonymous sign-in failed", err));
 
-export async function requestNotificationPermission() {
-  const permission = await Notification.requestPermission();
-  if (permission !== "granted") {
-    throw new Error("Notification permission not granted.");
-  }
-}
-
 export async function getOrCreateDeviceId() {
+  console.log("Calling [getOrCreateDeviceId]");
   let deviceId = localStorage.getItem("deviceId");
   if (!deviceId) {
     deviceId = crypto.randomUUID();
@@ -41,6 +35,7 @@ export async function getOrCreateDeviceId() {
 }
 
 export async function saveTokenToFirestore(deviceId, token) {
+  console.log("Calling [saveTokenToFirestore]");
   await setDoc(doc(db, "deviceTokens", deviceId), {
     token,
     updatedAt: serverTimestamp(),
@@ -48,6 +43,7 @@ export async function saveTokenToFirestore(deviceId, token) {
 }
 
 export async function getAndStoreFcmToken() {
+  console.log("Calling [getAndStoreFcmToken]");
   try {
     const registration = await navigator.serviceWorker.ready;
     const currentToken = await getToken(messaging, {
@@ -59,10 +55,13 @@ export async function getAndStoreFcmToken() {
       const deviceId = await getOrCreateDeviceId();
       await saveTokenToFirestore(deviceId, currentToken);
       localStorage.setItem("fcmToken", currentToken);
+      console.log(
+        "[getAndStoreFcmToken]: Saved deviceId to localStorage and stored token to Firebase collection."
+      );
     } else {
-      console.log("No registration token available.");
+      console.log("[getAndStoreFcmToken]: No registration token available.");
     }
   } catch (err) {
-    console.error("Error retrieving token:", err);
+    console.error("[getAndStoreFcmToken]: Error retrieving token:", err);
   }
 }

@@ -13,7 +13,13 @@ export default defineConfig({
       registerType: "autoUpdate",
       injectRegister: "auto",
       devOptions: {
-        enabled: true, // so SW works in dev with vite preview
+        enabled: false, // disable SW in development
+      },
+      workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
+        disablePrecaching: true, // disable precaching
+        runtimeCaching: [], // disable runtime caching
       },
       srcDir: "src",
       filename: "firebase-messaging-sw.js",
