@@ -47,6 +47,16 @@ messaging.onBackgroundMessage(function (payload) {
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+
+  // Send message to all clients (open tabs)
+  self.clients
+    .matchAll({ includeUncontrolled: true, type: "window" })
+    .then((clients) => {
+      clients.forEach((client) => {
+        console.log("[SW] Sending message to client:", client);
+        client.postMessage({ type: "NEW_NOTIFICATION", payload });
+      });
+    });
 });
 self.addEventListener("install", () => console.log("[SW] Installed"));
 self.addEventListener("activate", () => console.log("[SW] Activated"));

@@ -5,13 +5,15 @@ import "./index.css";
 import App from "./App.jsx";
 import { registerSW } from "virtual:pwa-register";
 import NotificationGate from "./components/NotificationGate.jsx";
-
+import { NotificationsProvider } from "./contexts/notifications.context.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <NotificationGate>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <NotificationsProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </NotificationsProvider>
     </NotificationGate>
   </StrictMode>
 );
