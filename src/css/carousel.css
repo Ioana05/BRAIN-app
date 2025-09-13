@@ -234,6 +234,7 @@ html {
 
   /* Card responsive */
   .custom-card {
+    height: 60vh;
     max-width: 95%;
     max-height: 70vh;
   }
