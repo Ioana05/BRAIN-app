@@ -97,6 +97,7 @@
 /* Remove default Bootstrap margins/padding */
 body,
 html {
+  position: fixed; /*asta a rezolvat overflowul*/
   margin: 0;
   padding: 0;
   height: 100%;
