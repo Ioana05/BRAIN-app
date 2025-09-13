@@ -39,11 +39,14 @@ messaging.onBackgroundMessage(function (payload) {
     (payload.data && payload.data.title) ||
     "New Notification";
 
+  const urlToOpen = "https://www.edusoft.ro/anunturi.html";
+
   const notificationOptions = {
     body:
       (payload.notification && payload.notification.body) ||
       (payload.data && payload.data.body) ||
       "You have a new message",
+    data: { url: urlToOpen },
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
@@ -58,5 +61,30 @@ messaging.onBackgroundMessage(function (payload) {
       });
     });
 });
+
+// Handle clicks on notifications
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close(); // close the notification
+
+  const url = event.notification.data.url;
+
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        for (const client of clients) {
+          // If a client is already open at that URL, focus it
+          if (client.url === url && "focus" in client) {
+            return client.focus();
+          }
+        }
+        // Otherwise, open a new window/tab
+        if (self.clients.openWindow) {
+          return self.clients.openWindow(url);
+        }
+      })
+  );
+});
+
 self.addEventListener("install", () => console.log("[SW] Installed"));
 self.addEventListener("activate", () => console.log("[SW] Activated"));
