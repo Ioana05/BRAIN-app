@@ -29,11 +29,13 @@ const defaultNotifications = [
 ];
 export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState(() => {
-    const stored = localStorage.getItem("notifications");
-    if (stored) return [...JSON.parse(stored)];
-    else {
-      return defaultNotifications;
+    try {
+      const stored = localStorage.getItem("notifications");
+      if (stored) return JSON.parse(stored);
+    } catch {
+      console.error("Failed to parse notifications from localStorage");
     }
+    return defaultNotifications;
   });
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
@@ -45,18 +47,26 @@ export const NotificationsProvider = ({ children }) => {
   // Listen to SW messages
   useEffect(() => {
     if (!navigator.serviceWorker) return;
+
     console.log("Setting up SW message listener");
     const handler = (event) => {
-      if (event.data?.type === "NEW_NOTIFICATION") {
-        console.log("Received NEW_NOTIFICATION from SW", event.data);
-        const newNotif = {
-          id: Date.now(),
-          title: event.data.payload.data.title,
-          message: event.data.payload.data.body,
-          time: new Date().toLocaleString(),
-          isRead: false,
-        };
-        setNotifications((prev) => [newNotif, ...prev]);
+      try {
+        if (
+          event.data?.type === "NEW_NOTIFICATION" &&
+          event.data?.payload?.data
+        ) {
+          console.log("Received NEW_NOTIFICATION from SW", event.data);
+          const newNotif = {
+            id: Date.now(),
+            title: event.data.payload.data.title,
+            message: event.data.payload.data.body,
+            time: new Date().toLocaleString(),
+            isRead: false,
+          };
+          setNotifications((prev) => [newNotif, ...prev]);
+        }
+      } catch (err) {
+        console.error("Error handling SW message", err);
       }
     };
 
