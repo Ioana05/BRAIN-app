@@ -1,277 +1,117 @@
-/* Full viewport height carousel for scientific articles */
+.carousel-container {
+  overflow: hidden;
+}
 .carousel {
-  height: 100vh !important;
-  width: 100vw !important;
+  height: calc(100vh - 5rem);
 }
-
-.carousel-inner {
-  height: 100vh !important;
-}
-
+.carousel-inner,
+.carousel-caption,
 .carousel-item {
-  height: 100vh !important;
-}
-
-.carousel-item img {
-  height: 60vh !important;
-  width: 100vw !important;
-  object-fit: cover !important;
-}
-
-/* Large caption area for scientific articles */
-.carousel-caption {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background-color: white !important;
-  color: white !important;
-  padding: 40px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: left !important;
-  overflow: auto !important;
-  transform: none !important;
-}
-
-/* Article content container */
-.article-content {
-  max-width: 800px;
-  width: 100%;
-  line-height: 1.6;
-  font-size: 18px;
-}
-
-/* Article title styling */
-.article-title {
-  font-size: 2.5rem !important;
-  margin-bottom: 30px !important;
-  font-weight: bold !important;
-  text-align: center !important;
-  color: #ffffff !important;
-}
-
-/* Article text styling */
-.article-text {
-  font-size: 18px !important;
-  line-height: 1.8 !important;
-  margin-bottom: 20px !important;
-  text-align: justify !important;
-}
-
-/* Article subtitle styling */
-.article-subtitle {
-  font-size: 1.5rem !important;
-  margin-top: 30px !important;
-  margin-bottom: 15px !important;
-  color: #ffffff !important;
-  font-weight: bold !important;
-}
-
-/* Inserted images in articles */
-.inserted-image {
-  max-width: 100%;
-  height: auto;
-  margin: 20px 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Image caption styling */
-.image-caption {
-  font-size: 14px;
-  font-style: italic;
-  margin-top: 10px;
-  color: #cccccc;
-}
-
-/* Image container */
-.image-container {
-  text-align: center;
-  margin: 30px 0;
-}
-
-/* Remove default Bootstrap margins/padding */
-body,
-html {
-  position: fixed; /*asta a rezolvat overflowul*/
-  margin: 0;
-  padding: 0;
   height: 100%;
 }
 
-/* Carousel container */
-.carousel-container {
-  margin: 0;
+.carousel-caption {
+  position: absolute;
   padding: 0;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
 }
 
-/* ========== STILURILE PENTRU CARD ========== */
+.article-content {
+  max-width: 80rem;
+  width: 100%;
+  line-height: 1.6;
+  font-size: 1.8rem;
+}
 
 .card-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
 }
 
 .custom-card {
-  max-width: 500px;
-  width: 90%;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  background: white;
+  height: 70vh;
   overflow: hidden;
-  transition: all 0.3s ease;
+  border-radius: 1rem;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
 }
 
 .custom-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 }
 
 .card-image {
   width: 100%;
-  height: 30%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.custom-card:hover .card-image {
-  transform: scale(1.05);
-}
-
 .card-content {
-  padding: 32px;
+  padding: 3.5rem;
 }
 
 .card-title {
-  margin: 0 0 16px 0;
   font-size: 1.75rem;
   font-weight: 600;
   color: #2d3748;
   line-height: 1.3;
+  margin-bottom: 1rem;
 }
 
 .card-description {
-  margin: 0 0 24px 0;
   font-size: 1rem;
   color: #4a5568;
   line-height: 1.6;
 }
 
-.card-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+.carousel-item img {
+  object-fit: cover;
 }
 
-.card-button {
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  flex: 1;
-  min-width: 120px;
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  filter: invert(1);
 }
 
-.card-button.primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+.carousel-control-next {
+  right: -1rem;
+}
+.carousel-control-prev {
+  left: -1rem;
 }
 
-.card-button.primary:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+.carousel-indicators {
+  bottom: 5rem;
 }
-
-.card-button.secondary {
-  background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
-}
-
-.card-button.secondary:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
-}
-
 /* ========== RESPONSIVE ADJUSTMENTS ========== */
 
 @media (max-width: 768px) {
   .carousel-caption {
-    padding: 20px !important;
-  }
-
-  .article-content {
-    font-size: 16px;
-  }
-
-  .article-title {
-    font-size: 2rem !important;
-    margin-bottom: 20px !important;
-  }
-
-  .article-text {
-    font-size: 16px !important;
-  }
-
-  .article-subtitle {
-    font-size: 1.3rem !important;
-  }
-
-  /* Card responsive */
-  .custom-card {
-    height: 60vh;
-    max-width: 95%;
-    max-height: 70vh;
-  }
-
-  .card-image {
-    height: 50px !important;
-    /* min-height: 120px !important; */
-    max-height: 120px !important;
-  }
-
-  .card-content {
-    padding: 24px;
+    padding: 1rem;
   }
 
   .card-title {
     font-size: 1.5rem;
   }
 
-  .card-description {
-    font-size: 0.9rem;
+  .custom-card {
+    max-width: 95%;
+    max-height: 60vh;
   }
 
-  .card-actions {
-    flex-direction: column;
+  .card-image {
+    max-height: 40%;
   }
 
-  .card-button {
-    min-width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
   .card-content {
-    padding: 20px;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
+    padding: 1.5rem;
   }
 }

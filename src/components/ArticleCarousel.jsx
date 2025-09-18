@@ -22,17 +22,9 @@ const ArticleCarousel = () => {
 
   return (
     <div className="carousel-container">
-      <Carousel>
+      <Carousel interval={null}>
         {articles.map((article, index) => (
           <Carousel.Item key={index}>
-            {/* <img
-              className="d-block"
-              src={
-                article.image ||
-                `https://picsum.photos/1920/1080?random=${index}`
-              }
-              alt={article.title}
-            /> */}
             <div className="carousel-caption">
               <div className="article-content">
                 <div className="card-wrapper">
