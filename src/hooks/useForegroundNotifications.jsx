@@ -13,8 +13,8 @@ const useForegroundNotifications = () => {
       setNotifications((prev) => [
         {
           id: Date.now(),
-          title: payload.notification?.title,
-          message: payload.notification?.body,
+          title: payload.data.title,
+          message: payload.data.body,
           time: new Date().toISOString(),
           isRead: false,
         },
