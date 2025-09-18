@@ -9,6 +9,7 @@ const NotificationGate = ({ children }) => {
       await signInAnonymously(auth);
 
       const permission = await Notification.requestPermission();
+      console.log(permission);
       if (permission === "granted") {
         await getAndStoreFcmToken();
         return true;
@@ -27,16 +28,24 @@ const NotificationGate = ({ children }) => {
 
   return (
     <>
-      {children}
-      {showPrompt && (
+      {showPrompt ? (
         <NotificationPrompt
           onEnable={async () => {
-            setShowPrompt(false);
             const granted = await askForNotifications();
-            if (!granted) alert("Enable notifications in settings.");
+            if (!granted) {
+              alert(
+                "Notifications are blocked. Please enable them manually:\n" +
+                  "1. Click the lock/info icon in your address bar\n" +
+                  "2. Change notifications to 'Allow'\n" +
+                  "3. Refresh the page"
+              );
+            } else {
+              setShowPrompt(false);
+            }
           }}
-          onClose={() => setShowPrompt(false)}
         />
+      ) : (
+        children
       )}
     </>
   );

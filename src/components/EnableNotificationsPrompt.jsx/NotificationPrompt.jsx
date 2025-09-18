@@ -17,7 +17,6 @@ const NotificationPrompt = ({ onEnable, onClose }) => {
         </Text>
         <ButtonGroup>
           <EnableButton onClick={onEnable}>Enable</EnableButton>
-          <CloseButton onClick={onClose}>Close</CloseButton>
         </ButtonGroup>
       </Modal>
     </Overlay>
