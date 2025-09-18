@@ -60,7 +60,7 @@ export const NotificationsProvider = ({ children }) => {
             id: Date.now(),
             title: event.data.payload.data.title,
             message: event.data.payload.data.body,
-            time: new Date().toLocaleString(),
+            time: new Date().toISOString(),
             isRead: false,
           };
           setNotifications((prev) => [newNotif, ...prev]);
