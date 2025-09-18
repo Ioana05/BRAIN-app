@@ -10,21 +10,21 @@ const defaultNotifications = [
     title: "Update",
     message: "New features have been added.",
     isRead: false,
-    time: new Date().toLocaleString(),
+    time: new Date().toISOString(),
   },
   {
     id: 2,
     title: "Reminder",
     message: "Don't forget to check out our latest articles.",
     isRead: false,
-    time: new Date().toLocaleString(),
+    time: new Date().toISOString(),
   },
   {
     id: 3,
     title: "Welcome",
     message: "Thanks for enabling notifications!",
     isRead: true,
-    time: new Date().toLocaleString(),
+    time: new Date().toISOString(),
   },
 ];
 export const NotificationsProvider = ({ children }) => {
@@ -85,7 +85,12 @@ export const NotificationsProvider = ({ children }) => {
   useEffect(() => {
     const cutoff = new Date();
     cutoff.setMonth(cutoff.getMonth() - 1);
-    setNotifications((prev) => prev.filter((n) => new Date(n.time) >= cutoff));
+    setNotifications((prev) =>
+      prev.filter((n) => {
+        const date = new Date(n.time);
+        return !isNaN(date) && date >= cutoff;
+      })
+    );
   }, []);
 
   return (
