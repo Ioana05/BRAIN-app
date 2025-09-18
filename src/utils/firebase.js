@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -23,6 +23,12 @@ export const auth = getAuth(app);
 signInAnonymously(auth)
   .then(() => console.log("Signed in anonymously"))
   .catch((err) => console.error("Anonymous sign-in failed", err));
+
+onMessage(messaging, (payload) => {
+  // Forward foreground messages to NotificationsContext via same handler logic
+  console.log("Foreground FCM message:", payload);
+  window.postMessage({ type: "NEW_NOTIFICATION", payload }, "*");
+});
 
 export async function getOrCreateDeviceId() {
   console.log("Calling [getOrCreateDeviceId]");
