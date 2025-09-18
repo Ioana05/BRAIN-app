@@ -3,9 +3,10 @@ import HomePage from "./routes/HomePage";
 import Navbar from "./components/Navbar/Navbar";
 import Notifications from "./routes/Notifications";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import useForegroundNotifications from "./hooks/useForegroundNotifications";
 
 function App() {
+  useForegroundNotifications();
   return (
     <Routes>
       <Route path="/" element={<Navbar />}>

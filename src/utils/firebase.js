@@ -25,25 +25,6 @@ signInAnonymously(auth)
   .then(() => console.log("Signed in anonymously"))
   .catch((err) => console.error("Anonymous sign-in failed", err));
 
-onMessage(messaging, (payload) => {
-  console.log("Foreground FCM message:", payload);
-  const { setNotifications } = useNotifications();
-  if (!setNotifications) {
-    console.error("setNotifications is not available in useNotifications");
-    return;
-  }
-  setNotifications((prev) => [
-    {
-      id: Date.now(),
-      title: payload.notification.title,
-      message: payload.notification.body,
-      time: new Date().toISOString(),
-      isRead: false,
-    },
-    ...prev,
-  ]);
-});
-
 export async function getOrCreateDeviceId() {
   console.log("Calling [getOrCreateDeviceId]");
   let deviceId = localStorage.getItem("deviceId");
