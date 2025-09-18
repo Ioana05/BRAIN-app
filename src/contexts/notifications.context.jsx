@@ -95,7 +95,7 @@ export const NotificationsProvider = ({ children }) => {
 
   return (
     <NotificationsContext.Provider
-      value={{ notifications, unreadCount, markAsRead }}
+      value={{ notifications, unreadCount, markAsRead, setNotifications }}
     >
       {children}
     </NotificationsContext.Provider>

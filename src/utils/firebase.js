@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { useNotifications } from "../contexts/notifications.context";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBV-a2Gz4jdFq5zBHLRYCn_duY1ccw3JnA",
@@ -25,9 +26,22 @@ signInAnonymously(auth)
   .catch((err) => console.error("Anonymous sign-in failed", err));
 
 onMessage(messaging, (payload) => {
-  // Forward foreground messages to NotificationsContext via same handler logic
   console.log("Foreground FCM message:", payload);
-  window.postMessage({ type: "NEW_NOTIFICATION", payload }, "*");
+  const { setNotifications } = useNotifications();
+  if (!setNotifications) {
+    console.error("setNotifications is not available in useNotifications");
+    return;
+  }
+  setNotifications((prev) => [
+    {
+      id: Date.now(),
+      title: payload.notification.title,
+      message: payload.notification.body,
+      time: new Date().toISOString(),
+      isRead: false,
+    },
+    ...prev,
+  ]);
 });
 
 export async function getOrCreateDeviceId() {
