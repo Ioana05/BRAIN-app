@@ -1,8 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
 import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { useNotifications } from "../contexts/notifications.context";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBV-a2Gz4jdFq5zBHLRYCn_duY1ccw3JnA",

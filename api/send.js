@@ -1,21 +1,38 @@
-import { sendNotification } from "../lib/firebase.js";
-import fetchAnnouncements from "../lib/fetchAnnouncements.js";
+import { checkForNewAnnouncements, sendNotification } from "../lib/firebase.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { title, body } = req.body || {};
-  if (!title || !body) {
-    return res.status(400).json({ error: "Missing title or body" });
-  }
+  let { title, body } = req.body || {};
 
   try {
-    const [data, status_code] = await fetchAnnouncements();
-    if (!data || status_code !== 200) {
-      return res.status(400).json({ error: "No valid data available" });
+    const { ok, newAnnouncementsCount, newAnnouncements, failed } =
+      await checkForNewAnnouncements();
+    if (!title && !body && !ok) {
+      // only return error if no custom title/body provided
+      return res.status(400).json({ error: failed });
     }
+
+    if (!title) {
+      // prioritize custom title if provided (so we can test with current endpoint)
+      title =
+        newAnnouncementsCount === 1
+          ? newAnnouncements[0].title
+          : `${newAnnouncementsCount} new announcements`;
+    }
+    if (!body) {
+      // same for body
+      body =
+        newAnnouncementsCount === 1
+          ? newAnnouncements[0].description.slice(0, 100) + "..."
+          : newAnnouncements
+              .slice(0, 3)
+              .map((a) => a.title)
+              .join(", ") + (newAnnouncementsCount > 3 ? ", ..." : "");
+    }
+
     const result = await sendNotification(title, body);
     res.status(200).json({ ok: true, result });
   } catch (err) {
