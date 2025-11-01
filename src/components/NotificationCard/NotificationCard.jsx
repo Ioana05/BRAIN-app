@@ -10,6 +10,7 @@ import {
   TooltipContainer,
   TooltipText,
 } from "./NotificationCard.styles";
+
 const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
   const handleActionClick = () => {
     window.open("https://www.edusoft.ro/anunturi.html", "_blank");
