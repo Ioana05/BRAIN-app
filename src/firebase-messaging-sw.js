@@ -6,7 +6,7 @@ importScripts(
 
 if (workbox) {
   console.log("[SW] Workbox loaded");
-  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+  workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
 }
 
 importScripts(
