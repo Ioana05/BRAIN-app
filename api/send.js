@@ -1,29 +1,29 @@
 import { checkForNewAnnouncements, sendNotification } from "../lib/firebase.js";
 
-export default async function handler(req, res) {
+export default async function handler(_, res) {
   try {
-    const { ok, newAnnouncementsCount, newAnnouncements } =
-      await checkForNewAnnouncements();
-
-    if (!ok) {
-      res.status(200).json({ ok: false, message: "No new announcements" });
+    const { ok, newAnnouncements, message } = await checkForNewAnnouncements();
+    if (!ok || newAnnouncements.length === 0) {
+      res.status(200).json({ message });
       return;
     }
+
+    const newCount = newAnnouncements.length;
     const title =
-      newAnnouncementsCount === 1
+      newCount === 1
         ? newAnnouncements[0].title
-        : `${newAnnouncementsCount} new announcements`;
+        : `${newCount} new announcements`;
 
     const body =
-      newAnnouncementsCount === 1
+      newCount === 1
         ? newAnnouncements[0].description.slice(0, 100) + "..."
         : newAnnouncements
             .slice(0, 3)
             .map((a) => a.title)
-            .join(", ") + (newAnnouncementsCount > 3 ? ", ..." : "");
+            .join(", ") + (newCount > 3 ? ", ..." : "");
 
     const result = await sendNotification(title, body);
-    res.status(200).json({ ok: true, result });
+    res.status(200).json({ result, message });
   } catch (err) {
     console.error("Send notification error:", err);
     res
