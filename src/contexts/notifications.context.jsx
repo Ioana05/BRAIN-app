@@ -31,9 +31,15 @@ export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState(() => {
     try {
       const stored = localStorage.getItem("notifications");
-      if (stored) return JSON.parse(stored);
-    } catch {
-      console.error("Failed to parse notifications from localStorage");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Use stored only if it’s a non-empty array with valid structure
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to parse notifications from localStorage", err);
     }
     return defaultNotifications;
   });
