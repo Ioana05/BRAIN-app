@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -14,11 +14,28 @@ const firebaseConfig = {
 };
 const VAPIDKEY =
   "BJRaHw59lnP_WXTVOnuXAmyB3MgmzhZxfU76l-zRwGykkopQ6_BuFAZc2K2TSW3ywxcvMoHwhr7cMWbIGVvaaOM";
-const app = initializeApp(firebaseConfig);
 
+const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const messaging = getMessaging(app);
 export const auth = getAuth(app);
+
+let messaging = null;
+let messagingSupported = false;
+
+isSupported().then((supported) => {
+  messagingSupported = supported;
+  if (supported) {
+    try {
+      messaging = getMessaging(app);
+      console.log("Firebase Messaging initialized");
+    } catch (error) {
+      console.log("Failed to initialize messaging:", error);
+    }
+  } else {
+    console.log("Firebase Messaging not supported on this browser");
+  }
+});
+export { messaging, messagingSupported };
 
 signInAnonymously(auth)
   .then(() => console.log("Signed in anonymously"))
@@ -44,6 +61,14 @@ export async function saveTokenToFirestore(deviceId, token) {
 
 export async function getAndStoreFcmToken() {
   console.log("Calling [getAndStoreFcmToken]");
+  // Wait for messaging to be checked
+  const supported = await isSupported();
+  if (!supported || !messaging) {
+    console.log(
+      "[getAndStoreFcmToken]: Messaging not supported on this device"
+    );
+    return;
+  }
   try {
     const registration = await navigator.serviceWorker.ready;
     const currentToken = await getToken(messaging, {

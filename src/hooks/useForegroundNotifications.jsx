@@ -7,6 +7,11 @@ const useForegroundNotifications = () => {
   const { setNotifications } = useNotifications();
 
   useEffect(() => {
+    // Don't set up listener if messaging is not supported
+    if (!messaging) {
+      console.log("Foreground notifications not available");
+      return;
+    }
     const unsubscribe = onMessage(messaging, (payload) => {
       console.log("Foreground FCM message:", payload);
       if (!setNotifications) return;

@@ -3,11 +3,17 @@ import { getAndStoreFcmToken } from "../utils/firebase";
 import { getAuth, signInAnonymously } from "firebase/auth";
 import NotificationPrompt from "./EnableNotificationsPrompt.jsx/NotificationPrompt";
 const NotificationGate = ({ children }) => {
+  // Check if Notification API exists
+  const notificationsSupported = typeof Notification !== "undefined";
   async function askForNotifications() {
+    // Early return if not supported
+    if (!notificationsSupported) {
+      console.log("Notifications not supported on this browser");
+      return false;
+    }
     try {
       const auth = getAuth();
       await signInAnonymously(auth);
-
       const permission = await Notification.requestPermission();
       console.log(permission);
       if (permission === "granted") {
@@ -22,9 +28,14 @@ const NotificationGate = ({ children }) => {
     }
   }
 
+  // Only check permission if Notification API exists
   const [showPrompt, setShowPrompt] = useState(
-    Notification.permission !== "granted"
+    notificationsSupported && Notification.permission !== "granted"
   );
+  // If notifications aren't supported, just render children without prompt
+  if (!notificationsSupported) {
+    return <>{children}</>;
+  }
 
   return (
     <>
