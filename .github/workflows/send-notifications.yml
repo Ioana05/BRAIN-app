@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Call notification endpoint
         run: |
-          curl -X POST https://your-site.netlify.app/api/sendNotifications \
+          curl -X POST https://brainedusoft.netlify.app/sendNotifications \
             -H "Authorization: Bearer ${{ secrets.API_SECRET }}"
