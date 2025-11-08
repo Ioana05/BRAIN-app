@@ -2,7 +2,7 @@ name: Send Notifications
 
 on:
   schedule:
-    - cron: "0 9 */2 * *" # Every 2 days at 09:00 UTC
+    - cron: "*/2 * * * *" 
   workflow_dispatch: # allow manual trigger
 
 jobs:
@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Call notification endpoint
         run: |
-          curl -X POST https://your-site.netlify.app/api/sendNotifications \
+          curl -X POST https://brain-app-two.vercel.app/api/test \
             -H "Authorization: Bearer ${{ secrets.API_SECRET }}"
