@@ -2,7 +2,7 @@ name: Send Notifications
 
 on:
   schedule:
-    - cron: "*/2 * * * *" 
+    - cron: "*/5 * * * *" 
   workflow_dispatch: # allow manual trigger
 
 jobs:
