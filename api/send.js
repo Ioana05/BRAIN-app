@@ -1,6 +1,10 @@
 import { checkForNewAnnouncements, sendNotification } from "../lib/firebase.js";
 
-export default async function handler(_, res) {
+export default async function handler(req, res) {
+  if (req.headers.authorization !== "Bearer github-action") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
   try {
     const { ok, newAnnouncements, message } = await checkForNewAnnouncements();
     if (!ok || newAnnouncements.length === 0) {
