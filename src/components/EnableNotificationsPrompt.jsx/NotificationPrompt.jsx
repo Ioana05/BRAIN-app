@@ -5,9 +5,8 @@ import {
   Text,
   ButtonGroup,
   EnableButton,
-  CloseButton,
 } from "./NotificationPrompt.styles.jsx";
-const NotificationPrompt = ({ onEnable, onClose }) => {
+const NotificationPrompt = ({ onEnable }) => {
   return (
     <Overlay>
       <Modal>

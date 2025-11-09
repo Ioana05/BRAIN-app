@@ -1,5 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import {
+  Layout,
   StyledNavContainer,
   StyledNotificationsLogo,
   StyledBrainLogoImg,
@@ -12,7 +13,7 @@ const Navbar = () => {
   const { unreadCount } = useNotifications();
 
   return (
-    <>
+    <Layout>
       <StyledNavContainer>
         <Link to="/">
           <StyledBrainLogoImg src={BrainLogo} alt="BRAIN logo" />
@@ -26,7 +27,7 @@ const Navbar = () => {
         </Link>
       </StyledNavContainer>
       <Outlet />
-    </>
+    </Layout>
   );
 };
 export default Navbar;
