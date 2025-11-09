@@ -30,8 +30,8 @@ export default defineConfig({
         short_name: "BRAIN",
         start_url: "/",
         display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#000000",
+        background_color: "#660000",
+        theme_color: "#660000",
         icons: [
           {
             src: "icons/manifest-icon-192.maskable.png",
