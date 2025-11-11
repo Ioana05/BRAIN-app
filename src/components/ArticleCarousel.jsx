@@ -44,14 +44,21 @@ const ArticleCarousel = () => {
                   <div className="custom-card">
                     <h3 className="card-title">{article.title}</h3>
                     <div className="card-content">
-                      <img
+                      {/* <img
                         className="card-image"
                         src={
                           article.image ||
                           `https://picsum.photos/600/300?random=${index}`
                         }
                         alt={article.title}
-                      />
+                      /> */}
+                      {article.img && (
+                        <img
+                          className="card-image"
+                          src={article.img}
+                          alt={article.title}
+                        />
+                      )}
                       <p className="card-description">
                         {article.description && (
                           <div>{article.description}</div>
