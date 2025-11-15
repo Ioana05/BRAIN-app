@@ -14,7 +14,7 @@ import { parseData } from "../../utils/helpers";
 
 const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
   const handleActionClick = () => {
-    window.open("https://www.edusoft.ro/anunturi.html", "_blank");
+    window.open("https://brain-app-two.vercel.app/", "_blank");
     onMarkAsRead();
   };
 
