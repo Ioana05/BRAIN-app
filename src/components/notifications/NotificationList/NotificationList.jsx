@@ -1,7 +1,8 @@
-import NotificationCard from "../NotificationCard/NotificationCard";
-import { useNotifications } from "../../contexts/notifications.context.jsx";
+import NotificationCard from "../NotificationCard/NotificationCard.jsx";
+import { useNotifications } from "../../../contexts/notifications.context.jsx";
 import NoNotificationsCard from "../NoNotificationsCard/NoNotificationsCard.jsx";
 import { NotificationsContainer } from "./NotificationList.styles.jsx";
+
 const NotificationList = () => {
   const { notifications, markAsRead } = useNotifications();
 

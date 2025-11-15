@@ -1,9 +1,7 @@
-import NotificationList from "../components/NotificationList/NotificationList";
+import NotificationList from "../components/notifications/NotificationList/NotificationList";
+
 const Notifications = () => {
-  return (
-    <>
-      <NotificationList />
-    </>
-  );
+  return <NotificationList />;
 };
+
 export default Notifications;

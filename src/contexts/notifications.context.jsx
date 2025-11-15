@@ -4,7 +4,6 @@ const NotificationsContext = createContext();
 
 export const useNotifications = () => useContext(NotificationsContext);
 
-const defaultNotifications = [];
 export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState(() => {
     try {
@@ -19,7 +18,7 @@ export const NotificationsProvider = ({ children }) => {
     } catch (err) {
       console.error("Failed to parse notifications from localStorage", err);
     }
-    return defaultNotifications;
+    return [];
   });
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;

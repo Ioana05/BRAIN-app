@@ -1,4 +1,4 @@
-import NoNotificationsYet from "../../assets/NoNotificationsYet.png";
+import NoNotificationsYet from "../../../assets/NoNotificationsYet.png";
 import { Card, BellImg, Title, Message } from "./NoNotificationsCard.styles";
 const NoNotificationsCard = () => {
   return (

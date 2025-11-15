@@ -11,7 +11,7 @@ import {
   TooltipText,
 } from "./NotificationCard.styles";
 import { useNavigate } from "react-router-dom";
-import { parseData } from "../../utils/helpers";
+import { parseData } from "../../../utils/helpers";
 
 const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
       <ButtonGroup>
         <TooltipContainer>
           <ActionButton onClick={handleActionClick} />
-          <TooltipText>Opens in browser</TooltipText>
+          <TooltipText>Go to content</TooltipText>
         </TooltipContainer>
         <DismissButton onClick={onMarkAsRead}>Dismiss</DismissButton>
       </ButtonGroup>

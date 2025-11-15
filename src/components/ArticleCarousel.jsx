@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/carousel.css";
-import { db } from "../utils/firebase"; // adjust path if needed
+import { db } from "../utils/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { DismissButton } from "./NotificationCard/NotificationCard.styles";
+import { DismissButton } from "./notifications/NotificationCard/NotificationCard.styles";
 
 const ArticleCarousel = () => {
   const [articles, setArticles] = useState([]);
@@ -34,7 +34,6 @@ const ArticleCarousel = () => {
     setActiveIndex(selectedIndex);
   };
 
-  console.log(articles);
   return (
     <div className="carousel-container">
       <Carousel
@@ -45,7 +44,7 @@ const ArticleCarousel = () => {
         {articles.map((article, index) => (
           <Carousel.Item
             key={index}
-            activeIndex={activeIndex}
+            activeindex={activeIndex}
             onSelect={handleSelect}
           >
             <div className="carousel-caption">

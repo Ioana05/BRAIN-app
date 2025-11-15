@@ -1,9 +1,7 @@
 import ArticleCarousel from "../components/ArticleCarousel";
+
 const HomePage = () => {
-  return (
-    <>
-      <ArticleCarousel />
-    </>
-  );
+  return <ArticleCarousel />;
 };
+
 export default HomePage;
