@@ -4,29 +4,7 @@ const NotificationsContext = createContext();
 
 export const useNotifications = () => useContext(NotificationsContext);
 
-const defaultNotifications = [
-  {
-    id: 1,
-    title: "Update",
-    message: "New features have been added.",
-    isRead: false,
-    time: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    title: "Reminder",
-    message: "Don't forget to check out our latest articles.",
-    isRead: false,
-    time: new Date().toISOString(),
-  },
-  {
-    id: 3,
-    title: "Welcome",
-    message: "Thanks for enabling notifications!",
-    isRead: true,
-    time: new Date().toISOString(),
-  },
-];
+const defaultNotifications = [];
 export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState(() => {
     try {
