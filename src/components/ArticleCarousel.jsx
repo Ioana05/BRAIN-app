@@ -71,10 +71,10 @@ const ArticleCarousel = () => {
                           Download PDF
                         </DismissButton>
                       )}
-                      {article.video && (
-                        <div className="aspect-video mb-4">
+                      {article.videoLink && (
+                        <div className="aspect-video w-full pt-4 mb-4">
                           <iframe
-                            src={article.video}
+                            src={article.videoLink}
                             title={article.title}
                             className="w-full h-full rounded-xl"
                             allowFullScreen
