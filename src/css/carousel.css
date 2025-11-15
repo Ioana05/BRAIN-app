@@ -118,11 +118,11 @@
   .custom-card {
     overflow-y: auto;
     max-width: 95%;
-    max-height: 60vh;
+    max-height: 80vh;
   }
 
   .card-image {
-    max-height: 40%;
+    max-height: 35vh;
   }
 
   .card-content {
