@@ -18,7 +18,10 @@ export default defineConfig({
       workbox: {
         skipWaiting: true, // activate new SW as soon as it's finished installing without waiting for all tabs to close; Without it: User opens your app -> you deploy update -> user keeps tab open for hours -> they're stuck on old version until they close ALL tabs
         clientsClaim: true, // take control of uncontrolled clients as soon as the SW becomes active; Without it: old pages stay controlled by old SW, new pages use new SW => mixed versions running
-        globPatterns: ["**/*.{js,css,html,ico,png,jpg,jpeg,svg,woff2}"], // explicitly cache these
+        globPatterns: [
+          "**/*.{js,css,html,ico,png,jpg,jpeg,svg,woff2}",
+          "assets/**/*",
+        ],
         cleanupOutdatedCaches: true, // automatically deletes old cache versions when a new SW activates. Only current version's cache exists => cleaner, less storage used.
         dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./, // avoid cache busting for files with hash in their name
       },
