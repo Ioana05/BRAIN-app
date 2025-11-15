@@ -9,6 +9,7 @@ import {
 } from "./Navbar.styles";
 import BrainLogo from "../../assets/BrainLogo.jpg";
 import { useNotifications } from "../../contexts/notifications.context";
+
 const Navbar = () => {
   const { unreadCount } = useNotifications();
 

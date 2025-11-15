@@ -1,4 +1,4 @@
-import ArticleCarousel from "../components/ArticleCarousel";
+import ArticleCarousel from "../components/ArticleCarousel/ArticleCarousel";
 
 const HomePage = () => {
   return <ArticleCarousel />;

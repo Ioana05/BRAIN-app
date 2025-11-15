@@ -6,6 +6,7 @@ import {
   ButtonGroup,
   EnableButton,
 } from "./NotificationPrompt.styles.jsx";
+
 const NotificationPrompt = ({ onEnable }) => {
   return (
     <Overlay>
