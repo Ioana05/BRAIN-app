@@ -10,11 +10,14 @@ import {
   TooltipContainer,
   TooltipText,
 } from "./NotificationCard.styles";
+import { useNavigate } from "react-router-dom";
 import { parseData } from "../../utils/helpers";
 
 const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
+  const navigate = useNavigate();
+
   const handleActionClick = () => {
-    window.open("https://brain-app-two.vercel.app/", "_blank");
+    navigate("/");
     onMarkAsRead();
   };
 

@@ -38,14 +38,11 @@ try {
       (payload.data && payload.data.title) ||
       "New Notification";
 
-    const urlToOpen = "https://www.edusoft.ro/anunturi.html";
-
     const notificationOptions = {
       body:
         (payload.notification && payload.notification.body) ||
         (payload.data && payload.data.body) ||
-        "You have a new message",
-      data: { url: urlToOpen },
+        "You have a new notification from BRAIN.",
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);
@@ -63,24 +60,24 @@ try {
 
   // Handle clicks on notifications
   self.addEventListener("notificationclick", (event) => {
-    event.notification.close(); // close the notification
-
-    const url = event.notification.data.url;
+    event.notification.close();
 
     event.waitUntil(
       self.clients
-        .matchAll({ type: "window", includeUncontrolled: true })
+        .matchAll({
+          type: "window",
+          includeUncontrolled: true,
+        })
         .then((clients) => {
+          // If any tab of the SPA is already open, focus it
           for (const client of clients) {
-            // If a client is already open at that URL, focus it
-            if (client.url === url && "focus" in client) {
+            if (client.url.startsWith("https://brain-app-two.vercel.app")) {
               return client.focus();
             }
           }
-          // Otherwise, open a new window/tab
-          if (self.clients.openWindow) {
-            return self.clients.openWindow(url);
-          }
+
+          // Otherwise open the SPA root
+          return self.clients.openWindow("https://brain-app-two.vercel.app/");
         })
     );
   });
