@@ -62,10 +62,17 @@ const ArticleCarousel = () => {
                         />
                       )}
                       <p className="card-description">
-                        {article.description && (
-                          <span>{article.description}</span>
-                        )}
+                        {article.description?.split(/\r?\n/).map((line, i) => (
+                          <span key={i}>
+                            {line}
+                            {i <
+                              article.description.split(/\r?\n/).length - 1 && (
+                              <br />
+                            )}
+                          </span>
+                        ))}
                       </p>
+
                       {article.pdfLink && (
                         <DismissButton
                           onClick={() => window.open(article.pdfLink, "_blank")}
