@@ -8,6 +8,7 @@ import { DismissButton } from "./NotificationCard/NotificationCard.styles";
 
 const ArticleCarousel = () => {
   const [articles, setArticles] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -32,12 +33,24 @@ const ArticleCarousel = () => {
     fetchArticles();
   }, []);
 
+  const handleSelect = (selectedIndex) => {
+    setActiveIndex(selectedIndex);
+  };
+
   console.log(articles);
   return (
     <div className="carousel-container">
-      <Carousel interval={null}>
+      <Carousel
+        interval={null}
+        activeIndex={activeIndex}
+        onSelect={handleSelect}
+      >
         {articles.map((article, index) => (
-          <Carousel.Item key={index}>
+          <Carousel.Item
+            key={index}
+            activeIndex={activeIndex}
+            onSelect={handleSelect}
+          >
             <div className="carousel-caption">
               <div className="article-content">
                 <div className="card-wrapper">
@@ -73,6 +86,11 @@ const ArticleCarousel = () => {
                           ></iframe>
                         </div>
                       )}
+                    </div>
+
+                    {/* Pagination in bottom right corner */}
+                    <div className="pagination-indicator">
+                      {activeIndex + 1} / {articles.length}
                     </div>
                   </div>
                 </div>

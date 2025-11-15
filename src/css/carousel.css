@@ -101,6 +101,18 @@
 .carousel-indicators {
   bottom: 5rem;
 }
+.pagination-indicator {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 10;
+}
 /* ========== RESPONSIVE ADJUSTMENTS ========== */
 
 @media (max-width: 768px) {
