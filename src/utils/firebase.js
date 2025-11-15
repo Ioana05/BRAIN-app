@@ -12,6 +12,7 @@ const firebaseConfig = {
   appId: "1:1079952596923:web:4237227ea0e49325f1ee9e",
   measurementId: "G-LL164WYB03",
 };
+
 const VAPIDKEY =
   "BJRaHw59lnP_WXTVOnuXAmyB3MgmzhZxfU76l-zRwGykkopQ6_BuFAZc2K2TSW3ywxcvMoHwhr7cMWbIGVvaaOM";
 
@@ -19,23 +20,36 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-let messaging = null;
-let messagingSupported = false;
+let messagingInstance = null;
+let messagingInitPromise = null;
 
-isSupported().then((supported) => {
-  messagingSupported = supported;
-  if (supported) {
-    try {
-      messaging = getMessaging(app);
-      console.log("Firebase Messaging initialized");
-    } catch (error) {
-      console.log("Failed to initialize messaging:", error);
-    }
-  } else {
-    console.log("Firebase Messaging not supported on this browser");
+export const initFirebaseMessaging = async () => {
+  if (messagingInstance) {
+    return messagingInstance;
   }
-});
-export { messaging, messagingSupported };
+
+  if (messagingInitPromise) {
+    return messagingInitPromise;
+  }
+
+  messagingInitPromise = (async () => {
+    try {
+      const supported = await isSupported();
+      if (!supported) {
+        console.log("Firebase Messaging not supported on this browser");
+        return null;
+      }
+      messagingInstance = getMessaging(app);
+      console.log("Firebase Messaging initialized");
+      return messagingInstance;
+    } catch (err) {
+      console.error("Failed to initialize Firebase Messaging:", err);
+      return null;
+    }
+  })();
+
+  return messagingInitPromise;
+};
 
 signInAnonymously(auth)
   .then(() => console.log("Signed in anonymously"))
@@ -61,20 +75,21 @@ export async function saveTokenToFirestore(deviceId, token) {
 
 export async function getAndStoreFcmToken() {
   console.log("Calling [getAndStoreFcmToken]");
-  // Wait for messaging to be checked
-  const supported = await isSupported();
-  if (!supported || !messaging) {
+  const messaging = await initFirebaseMessaging();
+  if (!messaging) {
     console.log(
       "[getAndStoreFcmToken]: Messaging not supported on this device"
     );
     return;
   }
+
   try {
     const registration = await navigator.serviceWorker.ready;
     const currentToken = await getToken(messaging, {
       vapidKey: VAPIDKEY,
       serviceWorkerRegistration: registration,
     });
+
     if (currentToken) {
       console.log(currentToken);
       const deviceId = await getOrCreateDeviceId();
