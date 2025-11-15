@@ -25,7 +25,7 @@
 }
 
 .article-content {
-  max-width: 80rem;
+  max-width: 40rem;
   width: 100%;
   line-height: 1.6;
   font-size: 1.8rem;
@@ -39,7 +39,7 @@
 
 .custom-card {
   overflow-y: auto;
-  height: 70vh;
+  height: 80vh;
   /* overflow: hidden; */
   border-radius: 1rem;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
