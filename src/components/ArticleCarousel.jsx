@@ -13,10 +13,7 @@ const ArticleCarousel = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const q = query(
-          collection(db, "announcements"),
-          orderBy("createdAt", "desc")
-        );
+        const q = query(collection(db, "announcements"), orderBy("createdAt"));
         const snapshot = await getDocs(q);
 
         const data = snapshot.docs.map((doc) => ({
@@ -77,11 +74,15 @@ const ArticleCarousel = () => {
                         </DismissButton>
                       )}
                       {article.videoLink && (
-                        <div className="aspect-video w-full pt-4 mb-4">
+                        <div className="mt-4 mb-4">
                           <iframe
                             src={article.videoLink}
                             title={article.title}
-                            className="w-full h-full rounded-xl"
+                            className={`iframe-full ${
+                              article.videoFormat === "v"
+                                ? "iframe-vertical"
+                                : "iframe-horizontal"
+                            }`}
                             allowFullScreen
                           ></iframe>
                         </div>

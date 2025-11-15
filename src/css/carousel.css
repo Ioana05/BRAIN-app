@@ -49,6 +49,12 @@
   cursor: pointer;
 }
 
+@media (min-width: 768px) {
+  .custom-card {
+    height: 75vh;
+  }
+}
+
 .card-image {
   width: 100%;
   object-fit: cover;
@@ -139,5 +145,22 @@
 
   .card-content {
     padding: 1.5rem;
+  }
+}
+
+.iframe-full {
+  width: 100%;
+  height: 100%;
+}
+.iframe-horizontal {
+  height: auto;
+}
+.iframe-vertical {
+  height: 25rem;
+}
+
+@media (min-width: 768px) {
+  .iframe-vertical {
+    height: 40rem;
   }
 }
