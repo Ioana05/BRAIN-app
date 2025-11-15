@@ -40,6 +40,7 @@
 .custom-card {
   overflow-y: auto;
   height: 80vh;
+  width: 40vw;
   /* overflow: hidden; */
   border-radius: 1rem;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
@@ -135,7 +136,7 @@
 
   .custom-card {
     overflow-y: auto;
-    max-width: 95%;
+    width: 40vw;
     max-height: 80vh;
   }
 
