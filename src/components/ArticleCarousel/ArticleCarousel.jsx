@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { db } from "../../utils/firebase";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { DismissButton } from "../notifications/NotificationCard/NotificationCard.styles";
 import {
   CarouselContainer,
@@ -28,21 +28,15 @@ const ArticleCarousel = () => {
   };
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const q = query(collection(db, "announcements"), orderBy("createdAt"));
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setArticles(data);
-        console.log("Fetched articles:", data);
-      } catch (e) {
-        console.error("Error fetching articles:", e);
-      }
-    };
-    fetchArticles();
+    const q = query(collection(db, "announcements"), orderBy("createdAt"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setArticles(data);
+      console.log("Realtime articles:", data);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return (
