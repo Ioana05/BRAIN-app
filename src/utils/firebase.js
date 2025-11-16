@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import { getFirestore, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { getOrCreateDeviceId } from "./helpers";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBV-a2Gz4jdFq5zBHLRYCn_duY1ccw3JnA",
@@ -51,22 +52,22 @@ export const initFirebaseMessaging = async () => {
   return messagingInitPromise;
 };
 
-signInAnonymously(auth)
-  .then(() => console.log("Signed in anonymously"))
-  .catch((err) => console.error("Anonymous sign-in failed", err));
+let authInitPromise = signInAnonymously(auth)
+  .then(() => {
+    console.log("Signed in anonymously");
+    return true;
+  })
+  .catch((err) => {
+    console.error("Anonymous sign-in failed", err);
+    return false;
+  });
 
-export async function getOrCreateDeviceId() {
-  console.log("Calling [getOrCreateDeviceId]");
-  let deviceId = localStorage.getItem("deviceId");
-  if (!deviceId) {
-    deviceId = crypto.randomUUID();
-    localStorage.setItem("deviceId", deviceId);
-  }
-  return deviceId;
-}
+const waitForAuth = () => authInitPromise;
 
 export async function saveTokenToFirestore(deviceId, token) {
   console.log("Calling [saveTokenToFirestore]");
+
+  await waitForAuth();
   await setDoc(doc(db, "deviceTokens", deviceId), {
     token,
     updatedAt: serverTimestamp(),
@@ -75,7 +76,10 @@ export async function saveTokenToFirestore(deviceId, token) {
 
 export async function getAndStoreFcmToken() {
   console.log("Calling [getAndStoreFcmToken]");
+
+  await waitForAuth();
   const messaging = await initFirebaseMessaging();
+
   if (!messaging) {
     console.log(
       "[getAndStoreFcmToken]: Messaging not supported on this device"
@@ -91,7 +95,6 @@ export async function getAndStoreFcmToken() {
     });
 
     if (currentToken) {
-      console.log(currentToken);
       const deviceId = await getOrCreateDeviceId();
       await saveTokenToFirestore(deviceId, currentToken);
       localStorage.setItem("fcmToken", currentToken);

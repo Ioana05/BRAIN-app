@@ -10,3 +10,13 @@ export const parseData = (string) => {
   const formatted = `${day}-${month}-${year} ${hours}:${minutes}`;
   return formatted;
 };
+
+export const getOrCreateDeviceId = () => {
+  console.log("Calling [getOrCreateDeviceId]");
+  let deviceId = localStorage.getItem("deviceId");
+  if (!deviceId) {
+    deviceId = crypto.randomUUID();
+    localStorage.setItem("deviceId", deviceId);
+  }
+  return deviceId;
+};
