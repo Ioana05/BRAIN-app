@@ -6,12 +6,12 @@ import {
   Time,
   ButtonGroup,
   ActionButton,
-  DismissButton,
   TooltipContainer,
   TooltipText,
 } from "./NotificationCard.styles";
 import { useNavigate } from "react-router-dom";
 import { parseData } from "../../../utils/helpers";
+import Button from "../../Button/Button.jsx";
 
 const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const NotificationCard = ({ title, message, time, isRead, onMarkAsRead }) => {
           <ActionButton onClick={handleActionClick} />
           <TooltipText>Go to content</TooltipText>
         </TooltipContainer>
-        <DismissButton onClick={onMarkAsRead}>Dismiss</DismissButton>
+        <Button onClick={onMarkAsRead} text="Dismiss" />
       </ButtonGroup>
     </UnreadCard>
   );

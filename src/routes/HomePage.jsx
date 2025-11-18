@@ -1,7 +1,7 @@
-import ArticleCarousel from "../components/ArticleCarousel/ArticleCarousel";
+import AnnouncementCarousel from "../components/AnnouncementCarousel/AnnouncementCarousel";
 
 const HomePage = () => {
-  return <ArticleCarousel />;
+  return <AnnouncementCarousel />;
 };
 
 export default HomePage;
