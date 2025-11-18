@@ -11,13 +11,12 @@ import {
   CardWrapper,
   CustomCard,
   CardTitle,
-  CardContent,
   CardImage,
   CardDescription,
-  VideoContainer,
-  StyledIframe,
+  StyledVideo,
   PaginationIndicator,
 } from "./ArticleCarousel.styles";
+import { normalizeText } from "../../utils/helpers";
 
 const ArticleCarousel = () => {
   const [articles, setArticles] = useState([]);
@@ -52,39 +51,30 @@ const ArticleCarousel = () => {
               <CardWrapper>
                 <CustomCard>
                   <CardTitle>{article.title}</CardTitle>
-                  <CardContent>
-                    {article.img && (
-                      <CardImage src={article.img} alt={article.title} />
-                    )}
-                    <CardDescription>
-                      {article.description?.split(/\r?\n/).map((line, i) => (
-                        <span key={i}>
-                          {line}
-                          {i <
-                            article.description.split(/\r?\n/).length - 1 && (
-                            <br />
-                          )}
-                        </span>
-                      ))}
-                    </CardDescription>
-                    {article.pdfLink && (
-                      <DismissButton
-                        onClick={() => window.open(article.pdfLink, "_blank")}
-                      >
-                        Download PDF
-                      </DismissButton>
-                    )}
-                    {article.videoLink && (
-                      <VideoContainer>
-                        <StyledIframe
-                          src={article.videoLink}
-                          title={article.title}
-                          $videoFormat={article.videoFormat}
-                          allowFullScreen
-                        />
-                      </VideoContainer>
-                    )}
-                  </CardContent>
+
+                  {article.img && (
+                    <CardImage src={article.img} alt={article.title} />
+                  )}
+                  <CardDescription>
+                    {normalizeText(article.description)}
+                  </CardDescription>
+                  {article.pdfLink && (
+                    <DismissButton
+                      onClick={() => window.open(article.pdfLink, "_blank")}
+                    >
+                      Download PDF
+                    </DismissButton>
+                  )}
+                  {article.videoLink && (
+                    <StyledVideo
+                      src={article.videoLink}
+                      title={article.title}
+                      $videoFormat={article.videoFormat}
+                      preload="auto"
+                      controls
+                    />
+                  )}
+
                   <PaginationIndicator>
                     {activeIndex + 1} / {articles.length}
                   </PaginationIndicator>

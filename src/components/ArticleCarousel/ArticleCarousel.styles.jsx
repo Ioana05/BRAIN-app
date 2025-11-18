@@ -65,6 +65,7 @@ export const CustomCard = styled.div`
   width: 40vw;
   border-radius: 1rem;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.3);
+  padding: 3.5rem;
 
   &:hover {
     cursor: pointer;
@@ -77,31 +78,19 @@ export const CustomCard = styled.div`
   @media (max-width: 768px) {
     width: 95%;
     max-height: 80vh;
+    padding: 1.5rem;
   }
 `;
 
 export const CardTitle = styled.h3`
-  padding-top: 3.5rem;
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   font-size: 1.8rem;
   font-weight: 600;
   color: #2d3748;
   line-height: 1.3;
+  margin-bottom: 1.5rem;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
-    padding-top: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-`;
-
-export const CardContent = styled.div`
-  padding: 3.5rem;
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
   }
 `;
 
@@ -110,6 +99,7 @@ export const CardImage = styled.img`
   object-fit: cover;
   transition: transform 0.3s ease;
   flex-shrink: 0;
+  margin-bottom: 1.5rem;
 
   @media (max-width: 768px) {
     max-height: 35vh;
@@ -117,28 +107,23 @@ export const CardImage = styled.img`
 `;
 
 export const CardDescription = styled.p`
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #4a5568;
   line-height: 1.6;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 2.5rem;
   margin-bottom: 1.5rem;
+  text-align: justify;
+  text-align-last: left;
+  white-space: pre-line;
 `;
 
-export const VideoContainer = styled.div`
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-`;
-
-export const StyledIframe = styled.iframe`
+export const StyledVideo = styled.video`
+  margin: 1.5rem 0;
   width: 100%;
-  height: ${(props) => (props.$videoFormat === "v" ? "25rem" : "100%")};
-
-  @media (min-width: 768px) {
-    height: ${(props) => (props.$videoFormat === "v" ? "40rem" : "auto")};
-  }
+  object-fit: contain;
+  border-radius: 0.5rem;
 `;
 
 export const PaginationIndicator = styled.div`

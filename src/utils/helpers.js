@@ -20,3 +20,14 @@ export const getOrCreateDeviceId = () => {
   }
   return deviceId;
 };
+
+export const normalizeText = (text) => {
+  return (
+    text
+      // 1) Replace REAL newlines (Enter key) with spaces
+      .replace(/\r?\n/g, " ")
+
+      // 2) Replace literal "\n" (backslash + n) with REAL newline
+      .replace(/\\n/g, "\n")
+  );
+};
