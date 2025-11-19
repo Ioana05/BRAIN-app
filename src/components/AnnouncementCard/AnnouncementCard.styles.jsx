@@ -58,7 +58,7 @@ export const CardDescription = styled.p`
   white-space: pre-line;
 `;
 
-export const StyledVideo = styled.video`
+export const CardVideo = styled.video`
   margin: 1.5rem 0;
   width: 100%;
   object-fit: contain;

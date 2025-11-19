@@ -4,34 +4,43 @@ import {
   CardTitle,
   CardImage,
   CardDescription,
-  StyledVideo,
+  CardVideo,
 } from "./AnnouncementCard.styles";
 import Button from "../Button/Button";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const AnnouncementCard = ({ article }) => {
   return (
     <Card>
-      <CardTitle>{article.title}</CardTitle>
+      {!article ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <CardTitle>{article.title}</CardTitle>
 
-      {article.img && <CardImage src={article.img} alt={article.title} />}
+          {article.img && <CardImage src={article.img} alt={article.title} />}
 
-      <CardDescription>{normalizeText(article.description)}</CardDescription>
+          <CardDescription>
+            {normalizeText(article.description)}
+          </CardDescription>
 
-      {article.pdfLink && (
-        <Button
-          text="Download PDF"
-          onClick={() => window.open(article.pdfLink, "_blank")}
-        />
-      )}
+          {article.pdfLink && (
+            <Button
+              text="Download PDF"
+              onClick={() => window.open(article.pdfLink, "_blank")}
+            />
+          )}
 
-      {article.videoLink && (
-        <StyledVideo
-          src={article.videoLink}
-          title={article.title}
-          $videoFormat={article.videoFormat}
-          preload="auto"
-          controls
-        />
+          {article.videoLink && (
+            <CardVideo
+              src={article.videoLink}
+              title={article.title}
+              $videoFormat={article.videoFormat}
+              preload="auto"
+              controls
+            />
+          )}
+        </>
       )}
     </Card>
   );

@@ -14,6 +14,7 @@ import AnnouncementCard from "../AnnouncementCard/AnnouncementCard";
 
 const AnnouncementCarousel = () => {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -26,11 +27,14 @@ const AnnouncementCarousel = () => {
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setArticles(data);
+      setLoading(false);
       console.log("Realtime articles:", data);
     });
 
     return () => unsubscribe();
   }, []);
+
+  const slides = loading ? [null] : articles;
 
   return (
     <CarouselContainer>
@@ -39,14 +43,17 @@ const AnnouncementCarousel = () => {
         activeIndex={activeIndex}
         onSelect={handleSelect}
       >
-        {articles.map((article, index) => (
+        {slides.map((article, index) => (
           <StyledCarouselItem key={index}>
             <CarouselSlideContainer>
               <CardWrapper>
                 <AnnouncementCard article={article} />
-                <PaginationIndicator>
-                  {activeIndex + 1} / {articles.length}
-                </PaginationIndicator>
+
+                {!loading && (
+                  <PaginationIndicator>
+                    {activeIndex + 1} / {articles.length}
+                  </PaginationIndicator>
+                )}
               </CardWrapper>
             </CarouselSlideContainer>
           </StyledCarouselItem>
