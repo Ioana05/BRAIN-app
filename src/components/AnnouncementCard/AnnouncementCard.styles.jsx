@@ -40,10 +40,6 @@ export const CardImage = styled.img`
   object-fit: cover;
   flex-shrink: 0;
   margin-bottom: 1.5rem;
-
-  @media (max-width: 768px) {
-    max-height: 35vh;
-  }
 `;
 
 export const CardDescription = styled.p`
