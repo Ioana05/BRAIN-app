@@ -12,26 +12,35 @@ export default function usePwaInstall() {
       }
     };
 
-    const handleAppInstalled = () => {
-      console.log("PWA installed!");
-      sendEvent("pwa_install", {
-        event_category: "pwa",
-        event_label: "installed",
-      });
-    };
-
-    window.addEventListener("appinstalled", handleAppInstalled);
-
-    // Poll to see when gtag becomes available, then flush queued events
-    const interval = setInterval(() => {
-      if (typeof window.gtag === "function" && queuedEvents.length > 0) {
+    const flushQueue = () => {
+      if (typeof window.gtag === "function") {
         queuedEvents.forEach(({ eventName, params }) =>
           window.gtag(eventName, params)
         );
         queuedEvents.length = 0;
-        clearInterval(interval);
       }
-    }, 500); // check every 0.5s
+    };
+
+    // Chrome / Chromium: appinstalled event
+    const handleAppInstalled = () => {
+      sendEvent("pwa_install", { platform: "chrome" });
+    };
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    // iOS / Safari detection: standalone mode
+    const isStandalone = () =>
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+
+    if (isStandalone()) {
+      sendEvent("pwa_install", { platform: "ios/android" });
+    }
+
+    // Poll to see when gtag becomes available, then flush queued events
+    const interval = setInterval(() => {
+      flushQueue();
+      if (queuedEvents.length === 0) clearInterval(interval);
+    }, 500);
 
     return () => {
       window.removeEventListener("appinstalled", handleAppInstalled);
