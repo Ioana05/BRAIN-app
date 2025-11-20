@@ -2,11 +2,17 @@ import { useEffect } from "react";
 
 export default function usePwaInstall() {
   useEffect(() => {
+    const INSTALL_KEY = "pwa_install_event_sent";
+    // If we already tracked install on this device, do nothing.
+    const alreadySent = localStorage.getItem(INSTALL_KEY);
+    if (alreadySent === "true") return;
+
     const queuedEvents = [];
 
     const sendEvent = (eventName, params) => {
       if (typeof window.gtag === "function") {
         window.gtag("event", eventName, params);
+        localStorage.setItem(INSTALL_KEY, "true");
       } else {
         queuedEvents.push({ eventName, params });
       }
@@ -18,6 +24,7 @@ export default function usePwaInstall() {
           window.gtag(eventName, params)
         );
         queuedEvents.length = 0;
+        localStorage.setItem(INSTALL_KEY, "true");
       }
     };
 
