@@ -22,7 +22,7 @@ const AnnouncementCarousel = () => {
   };
 
   useEffect(() => {
-    const q = query(collection(db, "announcements"), orderBy("createdAt"));
+    const q = query(collection(db, "announcements"), orderBy("order"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
