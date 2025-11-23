@@ -33,8 +33,7 @@ const AnnouncementCard = ({ article }) => {
 
           {article.videoLink && (
             <CardVideo
-              src={article.videoLink}
-              title={article.title}
+              src={`${article.videoLink}#t=0.5`}
               $videoFormat={article.videoFormat}
               preload="auto"
               controls
